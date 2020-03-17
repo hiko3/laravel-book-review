@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewRequest extends FormRequest
 {
@@ -29,4 +30,26 @@ class ReviewRequest extends FormRequest
             'image'         => 'mimes:jpeg,png,gif,svg|max:2048',
         ];
     }
+
+    public function reviewSaveData()
+    {
+        $inputs = $this->all();
+        if ($this->hasFile('image')) {
+            $this->file('image')->store('/public/images');
+            $data = [
+                'user_id'   => Auth::id(),
+                'title'     => $inputs['title'],
+                'body'      => $inputs['body'],
+                'image'     => $this->file('image')->hashName()
+            ];
+        } else {
+            $data = [
+                'user_id'   => Auth::id(),
+                'title'     => $inputs['title'],
+                'body'      => $inputs['body'],
+            ];
+        }
+        return $data;
+    }
+
 }

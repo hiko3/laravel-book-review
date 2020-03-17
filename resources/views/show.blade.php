@@ -23,7 +23,14 @@
             @endif
           </aside>
         </div>
-        <a href="{{ route('index') }}" class="btn btn-info btn-back mb20">一覧へ戻る</a>
+          <div class="d-flex justify-content-around">
+            <a href="{{ route('index') }}" class="btn btn-info btn-style mb20">一覧へ戻る</a>
+            <a href="{{ route('edit', $review->id) }}" class="btn btn-success btn-style mb20">編集する</a>
+            <form action="{{ route('destroy', ['id' => $review->id]) }}" method="POST">
+              @method('DELETE') @csrf
+              <input type="submit" class="btn btn-danger btn-style mb20" value="削除する">
+            </form>
+          </div>
       </div>
     </div>
 @endsection

@@ -28,23 +28,33 @@ class ReviewController extends Controller
 
     public function store(ReviewRequest $request)
     {
-        $inputs = $request->all();
-        if ($request->hasFile('image')) {
-            $request->file('image')->store('/public/images');
-            $data = [
-                'user_id'   => Auth::id(),
-                'title'     => $inputs['title'],
-                'body'      => $inputs['body'],
-                'image'     => $request->file('image')->hashName()
-            ];
-        } else {
-            $data = [
-                'user_id'   => Auth::id(),
-                'title'     => $inputs['title'],
-                'body'      => $inputs['body'],
-            ];
-        }
+        $data = $request->reviewSaveData();
         Review::create($data);
         return redirect()->route('index')->with('flash_message', '投稿が完了しました');
+    }
+
+    public function myPage($id)
+    {
+        $reviews = Review::where('status', 1)->where('user_id', $id)->orderBy('created_at', 'desc')->paginate(9);
+        return view('mypage',compact('reviews'));
+    }
+
+    public function edit($id)
+    {
+        $review = Review::where('status', 1)->find($id);
+        return view('edit', compact('review'));
+    }
+
+    public function update(ReviewRequest $request, $id)
+    {
+        $data = $request->reviewSaveData();
+        Review::find($id)->update($data);
+        return redirect()->route('show', ['id' => $id])->with('flash_message', '投稿を更新しました');
+    }
+
+    public function destroy($id)
+    {
+        Review::find($id)->delete();
+        return redirect()->route('mypage', ['id' => Auth::id()])->with('flash_message', '投稿を削除しました');
     }
 }
