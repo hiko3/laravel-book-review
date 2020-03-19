@@ -57,4 +57,14 @@ class ReviewController extends Controller
         Review::find($id)->delete();
         return redirect()->route('mypage', ['id' => Auth::id()])->with('flash_message', '投稿を削除しました');
     }
+
+    public function comment(Request $request)
+    {
+        $inputs = $request->all();
+        $review = Review::find($inputs['review_id']);
+        $review->comments()->create($inputs);
+        return redirect()->route('show', ['id' => $inputs['review_id']]);
+    }
+
+    
 }

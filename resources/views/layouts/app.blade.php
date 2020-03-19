@@ -21,6 +21,7 @@
     <link href="{{ asset('css/utility.css') }}" rel="stylesheet">
     <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
     @yield('css')
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">

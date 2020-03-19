@@ -24,3 +24,14 @@
 .pagination {
     justify-content: center;
 }
+
+.badge {
+    line-height: 2;
+}
+
+.heart-btn {
+    color: crimson;
+    background-color: rgb(0, 0, 0, 0);
+    border: none;
+    
+}

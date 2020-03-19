@@ -28,6 +28,7 @@ class ReviewRequest extends FormRequest
             'title'         => 'required|max:255',
             'body'          => 'required',
             'image'         => 'mimes:jpeg,png,gif,svg|max:2048',
+            'url'           => 'url'
         ];
     }
 
@@ -40,13 +41,15 @@ class ReviewRequest extends FormRequest
                 'user_id'   => Auth::id(),
                 'title'     => $inputs['title'],
                 'body'      => $inputs['body'],
-                'image'     => $this->file('image')->hashName()
+                'image'     => $this->file('image')->hashName(),
+                'url'       => $inputs['url'],
             ];
         } else {
             $data = [
                 'user_id'   => Auth::id(),
                 'title'     => $inputs['title'],
                 'body'      => $inputs['body'],
+                'url'       => $inputs['url']
             ];
         }
         return $data;

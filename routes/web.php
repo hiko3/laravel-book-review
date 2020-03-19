@@ -23,5 +23,10 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/edit/{id}', 'ReviewController@edit')->name('edit');
   Route::put('/update/{id}', 'ReviewController@update')->name('update');
   Route::delete('/destroy/{id}', 'ReviewController@destroy')->name('destroy');
+  Route::post('/comment', 'ReviewController@comment')->name('comment');
+  Route::group(['prefix' => 'reviews/{id}'], function() {
+    Route::post('like', 'LikeController@store')->name('like');
+    Route::delete('unlike', 'LikeController@destroy')->name('unlike');
+  });
 });
 

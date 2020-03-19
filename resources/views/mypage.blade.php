@@ -10,6 +10,12 @@
     @foreach ($reviews as $review)
       <div class="col-md-4">
         <div class="card mb50">
+          <div class="card-header">
+            <span class="mr-2">投稿日時：{{ $review->created_at }}</span>
+            <span class="badge badge-primary">
+              コメント {{ $review->comments->count() }} 件
+            </span>
+          </div>
           <div class="card-body">
             @if (!empty($review->image))
               <div class="image-wrapper">

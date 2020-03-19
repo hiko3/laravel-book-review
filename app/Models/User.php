@@ -36,4 +36,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function likes()
+    {
+        return $this->belongsToMany(Review::class, 'likes', 'user_id', 'review_id');
+    }
+
+    public function like($reviewId)
+    {
+        $exist = $this->is_like($reviewId);
+        if($exist) {
+            return false;
+        } else {
+            $this->likes()->attach($reviewId);
+            return true;
+        }
+    }
+
+    public function unlike($reviewId)
+    {
+        $exist = $this->is_like($reviewId);
+        if ($exist) {
+            $this->likes()->detach($reviewId);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function is_like($reviewId)
+    {
+        return $this->likes()->where('review_id', $reviewId)->exists();
+    }
 }
